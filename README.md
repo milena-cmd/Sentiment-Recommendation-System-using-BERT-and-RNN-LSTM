@@ -52,4 +52,3 @@ Additionally, a trust-based recommendation module is integrated, which calculate
 - **Recommendation:** Combines the weighted performance of learners (Reccl) with course utility (Ut_c_N) to generate final course recommendations.
 - **Evaluation:** Models are evaluated using metrics such as Precision, Recall, F1-Score, RMSE, MAE, and NDCG.
 
-For more details, please refer to [installation instructions](installation.md).
