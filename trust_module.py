@@ -93,7 +93,7 @@ def compute_course_utility(trusted_learners, course_counts):
     Computes the utility of a course (Ut_c_N) based on the frequency of recommendations by trusted learners.
     
     This is a simplified implementation where:
-      - course_counts is a dictionary mapping course IDs to their frequency or aggregated score.
+      - course_counts is a dictionary mapping course IDs to frequency or aggregated score.
       - The ratio |TRSet(N)| / |ConfSet(N)| is approximated by using the total count of trusted learners.
     
     Args:
@@ -110,7 +110,7 @@ def compute_course_utility(trusted_learners, course_counts):
         utility[course_id] = (count * total_trusted) / total_course_count
     return utility
 
-# Example usage:
+# Example usage
 if __name__ == '__main__':
     # Example feature vectors for learners
     learner_vectors = {
