@@ -47,8 +47,8 @@ def train_bert_model(data_file, model_save_path):
     print(f'Model saved to {model_save_path}')
     
 if __name__ == '__main__':
-    # Example usage: using the processed OULA dataset
-    data_file = os.path.join(os.getcwd(), 'data', 'processed', 'oula_processed.csv')
+    # Example usage: using the processed Amazon Books Reviews dataset
+    data_file = os.path.join(os.getcwd(), 'data', 'processed', 'amazon_books_processed.csv')
     model_save_path = os.path.join(os.getcwd(), 'results', 'bert_model')
     os.makedirs(model_save_path, exist_ok=True)
     train_bert_model(data_file, model_save_path)
