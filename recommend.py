@@ -47,4 +47,23 @@ def recommend_courses(learner_performances, course_utilities):
     sorted_recommendations = sorted(recommendations.items(), key=lambda x: x[1], reverse=True)
     return sorted_recommendations
 
-
+# Example usage:
+if __name__ == '__main__':
+    # Example learner performance data: for each course, a list of scores and corresponding weights.
+    learner_performances = {
+        'course1': ([80, 90, 85], [0.8, 0.9, 0.85]),
+        'course2': ([70, 75, 80], [0.7, 0.75, 0.8]),
+        'course3': ([90, 95, 92], [0.9, 0.95, 0.92])
+    }
+    
+    # Example course utilities computed from trusted learners.
+    course_utilities = {
+        'course1': 0.5,
+        'course2': 0.3,
+        'course3': 0.7
+    }
+    
+    recommendations = recommend_courses(learner_performances, course_utilities)
+    print('Course Recommendations (sorted by score):')
+    for course_id, score in recommendations:
+        print(f'{course_id}: {score:.4f}')
