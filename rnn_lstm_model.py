@@ -63,7 +63,7 @@ def train_rnn_lstm_model(data_file, model_save_path):
     print(f'Model saved to {model_path}')
     
 if __name__ == '__main__':
-    data_file = os.path.join(os.getcwd(), 'data', 'processed', 'oula_processed.csv')
+    data_file = os.path.join(os.getcwd(), 'data', 'processed', 'amazon_books_processed.csv')
     model_save_path = os.path.join(os.getcwd(), 'results', 'rnn_lstm_model')
     os.makedirs(model_save_path, exist_ok=True)
     train_rnn_lstm_model(data_file, model_save_path)
