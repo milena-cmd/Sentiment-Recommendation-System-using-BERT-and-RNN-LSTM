@@ -14,11 +14,12 @@ def clean_text(text):
 
 def preprocess_file(input_path, output_path):
     df = pd.read_csv(input_path)
+    # Assume the raw CSV has a column named 'review'; adjust if necessary.
     if 'review' in df.columns:
         df['cleaned_review'] = df['review'].apply(clean_text)
     else:
         print(f'Column \"review\" not found in {input_path}')
-    # It is assumed that a 'label' column exists for classification.
+    # Assume a 'label' column exists for classification tasks. If not, you may add one.
     df.to_csv(output_path, index=False)
     print(f'Processed data saved to {output_path}')
 
