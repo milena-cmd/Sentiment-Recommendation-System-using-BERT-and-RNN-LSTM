@@ -6,3 +6,6 @@ pandas
 matplotlib
 jupyter
 beautifulsoup4
+nltk
+textblob
+
