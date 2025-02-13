@@ -1,3 +1,5 @@
+# src/baselines.py
+
 import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
@@ -183,3 +185,7 @@ if __name__ == '__main__':
     
     print("\nSocial Regularization Recommendations for", target_user)
     print(social_regularization(ratings, trust_matrix, target_user))
+
+     .
+   
+       
