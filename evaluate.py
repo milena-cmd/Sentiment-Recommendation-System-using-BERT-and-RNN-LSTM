@@ -27,11 +27,11 @@ def evaluate_metrics(y_true, y_pred, y_score=None):
     
     ndcg = None
     if y_score is not None:
-        # Convert y_true into one-hot encoding
+        # Convert y_true into one-hot encoding for NDCG computation
         n_classes = y_score.shape[1]
         y_true_onehot = np.zeros_like(y_score)
         for i, label in enumerate(y_true):
-            if label < n_classes:  # Ensure label is within the valid range
+            if label < n_classes:
                 y_true_onehot[i, label] = 1
         ndcg = ndcg_score(y_true_onehot, y_score)
     
@@ -43,8 +43,8 @@ def evaluate_bert():
     model_path = os.path.join(os.getcwd(), 'results', 'bert_model')
     model = TFBertForSequenceClassification.from_pretrained(model_path)
     
-    # Load processed data
-    data_file = os.path.join(os.getcwd(), 'data', 'processed', 'oula_processed.csv')
+    # Load processed data (using amazon_books_processed.csv)
+    data_file = os.path.join(os.getcwd(), 'data', 'processed', 'amazon_books_processed.csv')
     df = pd.read_csv(data_file)
     texts = df['cleaned_review'].tolist()
     y_true = df['label'].tolist()
@@ -62,10 +62,10 @@ def evaluate_rnn():
     model_path = os.path.join(os.getcwd(), 'results', 'rnn_lstm_model', 'rnn_lstm_model.h5')
     model = tf.keras.models.load_model(model_path)
     
-    # Load processed data and prepare tokenizer
+    # Load processed data and prepare tokenizer (using amazon_books_processed.csv)
     from tensorflow.keras.preprocessing.text import Tokenizer
     from tensorflow.keras.preprocessing.sequence import pad_sequences
-    data_file = os.path.join(os.getcwd(), 'data', 'processed', 'oula_processed.csv')
+    data_file = os.path.join(os.getcwd(), 'data', 'processed', 'amazon_books_processed.csv')
     df = pd.read_csv(data_file)
     texts = df['cleaned_review'].tolist()
     y_true = df['label'].tolist()
