@@ -62,10 +62,10 @@ def evaluate_rnn():
     model_path = os.path.join(os.getcwd(), 'results', 'rnn_lstm_model', 'rnn_lstm_model.h5')
     model = tf.keras.models.load_model(model_path)
     
-    # Load processed data and prepare tokenizer (using amazon_books_processed.csv)
+
     from tensorflow.keras.preprocessing.text import Tokenizer
     from tensorflow.keras.preprocessing.sequence import pad_sequences
-    data_file = os.path.join(os.getcwd(), 'data', 'processed', 'amazon_books_processed.csv')
+    data_file = os.path.join(os.getcwd(), 'data', 'processed', '.csv')
     df = pd.read_csv(data_file)
     texts = df['cleaned_review'].tolist()
     y_true = df['label'].tolist()
