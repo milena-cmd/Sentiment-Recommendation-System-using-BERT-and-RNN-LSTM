@@ -1,4 +1,4 @@
-# Hybrid Recommendation System using BERT and RNN-LSTM
+# Sentiment Recommendation System using BERT and RNN-LSTM
 
 This repository implements a recommendation system for the e-learning domain by leveraging sentiment analysis through two approaches:
 - **BERT-based model**
