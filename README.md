@@ -15,7 +15,7 @@ The datasets used in this project are:
 - **Coursera dataset**
 - **Udemy Course Reviews dataset**
 - **EdX Course Reviews dataset**
-- **Amazon Books Reviews dataset** (replaces FutureLearn)
+- **Amazon Books Reviews dataset** 
 - **Skillshare Course Reviews dataset**
 
 ## Repository Structure
