@@ -155,37 +155,118 @@ def social_regularization(ratings, social_matrix, target_user, k=5):
         else:
             predictions[item] = np.nan
     return pd.Series(predictions).dropna().sort_values(ascending=False)
+    class DeepCoNN(nn.Module):
+    def __init__(self, vocab_size, embedding_dim, hidden_dim, output_dim):
+        super(DeepCoNN, self).__init__()
+        self.embedding = nn.Embedding(vocab_size, embedding_dim)
+        self.cnn = nn.Conv1d(in_channels=embedding_dim, out_channels=hidden_dim, kernel_size=3, padding=1)
+        self.fc = nn.Linear(hidden_dim, output_dim)
+        self.relu = nn.ReLU()
+    
+    def forward(self, user_reviews, item_reviews):
+        user_embedded = self.embedding(user_reviews).permute(0, 2, 1)
+        item_embedded = self.embedding(item_reviews).permute(0, 2, 1)
+        user_features = self.relu(self.cnn(user_embedded)).max(dim=2)[0]
+        item_features = self.relu(self.cnn(item_embedded)).max(dim=2)[0]
+        interaction = user_features * item_features
+        output = self.fc(interaction)
+        return output
 
-# Example usage
-if __name__ == '__main__':
-    # Create a sample ratings DataFrame (users x courses)
-    data = {
-        'course1': [5, 4, np.nan, 2, 1],
-        'course2': [4, np.nan, 3, 2, 1],
-        'course3': [np.nan, 3, 4, 2, 5],
-        'course4': [2, 5, 3, np.nan, 4],
-    }
-    ratings = pd.DataFrame(data, index=['user1', 'user2', 'user3', 'user4', 'user5'])
+def deepconn_recommender(user_reviews, item_reviews, target_user, k=5):
+    """
+    DeepCoNN-based Recommendation
     
-    target_user = 'user3'
-    
-    print("User-based CF Recommendations for", target_user)
-    print(user_based_cf(ratings, target_user))
-    
-    print("\nItem-based CF Recommendations for", target_user)
-    print(item_based_cf(ratings, target_user))
-    
-    print("\nSVD Recommendations for", target_user)
-    print(svd_recommender(ratings, target_user))
-    
-    # For social regularization, assume a social (trust) matrix is provided.
-    # Here we create a dummy trust matrix for demonstration.
-    trust_matrix = pd.DataFrame(np.random.rand(5, 5), index=ratings.index, columns=ratings.index)
-    np.fill_diagonal(trust_matrix.values, 1)
-    
-    print("\nSocial Regularization Recommendations for", target_user)
-    print(social_regularization(ratings, trust_matrix, target_user))
+    Args:
+        user_reviews (dict): Dictionary mapping user IDs to their review text
+        item_reviews (dict): Dictionary mapping item IDs to review text
+        target_user (str): User ID for whom to recommend
+        k (int): Number of recommendations to return
 
-     .
-   
-       
+    Returns:
+        pd.Series: Predicted ratings sorted in descending order
+    """
+    vocab_size = 5000  # Placeholder value
+    model = DeepCoNN(vocab_size, embedding_dim=128, hidden_dim=64, output_dim=1)
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    criterion = nn.MSELoss()
+    
+    user_inputs = torch.randint(0, vocab_size, (len(user_reviews), 100))
+    item_inputs = torch.randint(0, vocab_size, (len(item_reviews), 100))
+    
+    model.train()
+    for _ in range(10):  # Placeholder training loop
+        optimizer.zero_grad()
+        predictions = model(user_inputs, item_inputs).squeeze()
+        loss = criterion(predictions, torch.rand(len(user_reviews)))
+        loss.backward()
+        optimizer.step()
+    
+    model.eval()
+    with torch.no_grad():
+        user_input = torch.randint(0, vocab_size, (1, 100))
+        item_inputs = torch.randint(0, vocab_size, (len(item_reviews), 100))
+        predictions = model(user_input, item_inputs).squeeze()
+    
+    recommendations = pd.Series(predictions.numpy(), index=item_reviews.keys()).sort_values(ascending=False)
+    return recommendations.head(k)
+
+# Define NARRE Model
+class NARRE(nn.Module):
+    def __init__(self, vocab_size, embedding_dim, hidden_dim, output_dim):
+        super(NARRE, self).__init__()
+        self.embedding = nn.Embedding(vocab_size, embedding_dim)
+        self.cnn = nn.Conv1d(embedding_dim, hidden_dim, kernel_size=3, padding=1)
+        self.attention = nn.Linear(hidden_dim, 1)
+        self.fc = nn.Linear(hidden_dim, output_dim)
+        self.relu = nn.ReLU()
+    
+    def forward(self, user_reviews, item_reviews):
+        user_embedded = self.embedding(user_reviews).permute(0, 2, 1)
+        item_embedded = self.embedding(item_reviews).permute(0, 2, 1)
+        user_features = self.relu(self.cnn(user_embedded))
+        item_features = self.relu(self.cnn(item_embedded))
+        user_weights = torch.softmax(self.attention(user_features).squeeze(), dim=1)
+        item_weights = torch.softmax(self.attention(item_features).squeeze(), dim=1)
+        user_features = (user_features * user_weights.unsqueeze(2)).sum(dim=1)
+        item_features = (item_features * item_weights.unsqueeze(2)).sum(dim=1)
+        interaction = user_features * item_features
+        output = self.fc(interaction)
+        return output
+
+def narre_recommender(user_reviews, item_reviews, target_user, k=5):
+    """
+    NARRE-based Recommendation
+    
+    Args:
+        user_reviews (dict): Dictionary mapping user IDs to their review text
+        item_reviews (dict): Dictionary mapping item IDs to review text
+        target_user (str): User ID for whom to recommend
+        k (int): Number of recommendations to return
+
+    Returns:
+        pd.Series: Predicted ratings sorted in descending order
+    """
+    vocab_size = 5000  # Placeholder value
+    model = NARRE(vocab_size, embedding_dim=128, hidden_dim=64, output_dim=1)
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    criterion = nn.MSELoss()
+    
+    user_inputs = torch.randint(0, vocab_size, (len(user_reviews), 100))
+    item_inputs = torch.randint(0, vocab_size, (len(item_reviews), 100))
+    
+    model.train()
+    for _ in range(10):  # Placeholder training loop
+        optimizer.zero_grad()
+        predictions = model(user_inputs, item_inputs).squeeze()
+        loss = criterion(predictions, torch.rand(len(user_reviews)))
+        loss.backward()
+        optimizer.step()
+    
+    model.eval()
+    with torch.no_grad():
+        user_input = torch.randint(0, vocab_size, (1, 100))
+        item_inputs = torch.randint(0, vocab_size, (len(item_reviews), 100))
+        predictions = model(user_input, item_inputs).squeeze()
+    
+    recommendations = pd.Series(predictions.numpy(), index=item_reviews.keys()).sort_values(ascending=False)
+    return recommendations.head(k)
