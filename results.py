@@ -46,16 +46,7 @@ def main():
     # Création des dossiers de résultats
     figures_dir, tables_dir = ensure_results_dirs()
     
-    # Exemple de métriques pour deux modèles : BERT et RNN-LSTM
-    metrics = {
-        "Model": ["BERT", "RNN-LSTM"],
-        "Accuracy": [0.87, 0.83],
-        "Precision": [0.85, 0.82],
-        "Recall": [0.83, 0.80],
-        "F1-Score": [0.84, 0.81],
-        "MAE": [0.12, 0.15],
-        "RMSE": [0.18, 0.22]
-    }
+
     
     # Sauvegarde des métriques dans un fichier CSV
     metrics_csv = os.path.join(tables_dir, "model_metrics.csv")
