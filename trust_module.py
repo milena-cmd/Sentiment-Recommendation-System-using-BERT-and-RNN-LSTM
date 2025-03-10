@@ -110,29 +110,3 @@ def compute_course_utility(trusted_learners, course_counts):
         utility[course_id] = (count * total_trusted) / total_course_count
     return utility
 
-# Example usage
-if __name__ == '__main__':
-    # Example feature vectors for learners
-    learner_vectors = {
-        'learner1': np.array([1, 2, 3]),
-        'learner2': np.array([2, 1, 0]),
-        'learner3': np.array([0, 1, 1])
-    }
-    N = 2
-    trusted = build_trusted_learners(learner_vectors, N)
-    print('Trusted Learners:', trusted)
-    
-    # Example ratings
-    learners_ratings = {
-        'learner1': 4.5,
-        'learner2': 4.0,
-        'learner3': 3.8
-    }
-    epsilon = 0.5
-    confidence_matrix, learner_ids = build_confidence_matrix(learners_ratings, epsilon)
-    print('Confidence Matrix:\n', confidence_matrix)
-    
-    # Example course counts
-    course_counts = {'course1': 10, 'course2': 5, 'course3': 3}
-    utility = compute_course_utility(trusted, course_counts)
-    print('Course Utility:', utility)
