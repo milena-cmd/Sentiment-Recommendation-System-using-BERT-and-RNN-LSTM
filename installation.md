@@ -10,6 +10,6 @@
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/milena-cmd/-Hybrid-Recommendation-System-using-BERT-and-RNN-LSTM.git
+   git clone https://github.com/milena-cmd/Sentiment-Recommendation-System-using-BERT-and-RNN-LSTM.git
  
 
