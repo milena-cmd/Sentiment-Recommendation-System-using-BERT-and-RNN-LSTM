@@ -14,10 +14,10 @@ Additionally, a trust-based recommendation module is integrated, which calculate
 │   ├── raw/
 │   │   ├── oula.csv                      # Raw (OULA) dataset enriched with learners’ reviews
 │   │   ├── coursera.csv                  # Raw Coursera dataset
-│   │   ├── udemy.csv                     # Raw Udemy Course Reviews dataset
-│   │   ├── edx.csv                       # Raw EdX Course Reviews dataset
-│   │   ├── futurelearn.csv               # Raw FutureLearn Course Reviews dataset
-│   │   └── skillshare.csv                # Raw Skillshare Course Reviews dataset
+│   │   ├── yelp.csv                       # Raw Yelp Reviews dataset
+│   │   ├── tripadvisor.csv                # Raw TripAdvisor Hotel Reviews dataset
+│   │   ├── amazon_books.csv               # Raw Amazon Books Reviews dataset
+│   │   ├── amazon_products.csv            # Raw Amazon Product Reviews dataset
 │   └── processed/                        # Processed data will be stored here
 ├── docs/
 │   ├── README.md                         # Main project description
